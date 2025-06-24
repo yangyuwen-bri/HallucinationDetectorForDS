@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幻觉检测算法优化测试</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-input {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .results {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .issue {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 5px 0;
+        }
+        .issue.high { background: #f8d7da; border-color: #f5c6cb; }
+        .issue.medium { background: #fff3cd; border-color: #ffeaa7; }
+        .issue.low { background: #d1ecf1; border-color: #bee5eb; }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .metric {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #495057;
+        }
+        .metric-label {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .version {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+        }
+        .version h4 {
+            margin-top: 0;
+            color: #495057;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        .test-cases {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .test-case {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+        }
+        .test-case h4 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .test-case textarea {
+            width: 100%;
+            height: 80px;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 幻觉检测算法优化测试</h1>
+    
+    <div class="test-section">
+        <h2>算法优化对比测试</h2>
+        <p>输入测试文本，对比优化前后的检测效果：</p>
+        
+        <textarea id="testInput" class="test-input" placeholder="请输入要测试的AI回复文本...">我记得在2023年官方数据显示，绝对有100%的用户都认为这个方法是最好的解决方案。根据我刚刚搜索的最新研究，你们那里的情况通常比较复杂。</textarea>
+        
+        <div>
+            <button class="test-button" onclick="runTest()">运行检测测试</button>
+            <button class="test-button" onclick="runAllTests()">运行所有预设测试</button>
+            <button class="test-button" onclick="clearResults()">清除结果</button>
+        </div>
+        
+        <div id="testResults" class="results" style="display:none;">
+            <h3>检测结果</h3>
+            <div class="metrics" id="metricsDisplay"></div>
+            <div id="issuesDisplay"></div>
+            <div id="performanceDisplay"></div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>预设测试用例</h2>
+        <div class="test-cases" id="testCases">
+            <!-- 测试用例将通过JavaScript生成 -->
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>算法改进说明</h2>
+        <div class="comparison">
+            <div class="version">
+                <h4>🔧 优化前</h4>
+                <ul>
+                    <li>简单正则表达式匹配</li>
+                    <li>固定置信度计算</li>
+                    <li>基础去重逻辑</li>
+                    <li>缺失功能实现</li>
+                    <li>无白名单过滤</li>
+                    <li>误报率较高</li>
+                </ul>
+            </div>
+            <div class="version">
+                <h4>✨ 优化后</h4>
+                <ul>
+                    <li>上下文感知的正则表达式</li>
+                    <li>多因素置信度计算</li>
+                    <li>智能去重机制</li>
+                    <li>完整功能实现</li>
+                    <li>白名单过滤系统</li>
+                    <li>显著降低误报</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载算法文件 -->
+    <script src="lib/hallucination-patterns.js"></script>
+    <script src="lib/text-analyzer.js"></script>
+
+    <script>
+        // 初始化组件
+        let patterns = null;
+        let analyzer = null;
+        
+        // 测试用例数据
+        const testCases = [
+            {
+                name: "个人经历声明",
+                text: "我记得去年我亲自参与了这个项目。",
+                expectedIssues: 2,
+                description: "AI声称有个人经历"
+            },
+            {
+                name: "白名单测试",
+                text: "我理解您的意思，作为AI助手，我的建议是使用约75%的资源。",
+                expectedIssues: 0,
+                description: "应该被白名单过滤"
+            },
+            {
+                name: "时间敏感信息",
+                text: "最新消息显示今天股价上涨了3.247%。",
+                expectedIssues: 2,
+                description: "过时信息和精确数字"
+            },
+            {
+                name: "过度确定性",
+                text: "这绝对是最好的方法，100%确保成功。",
+                expectedIssues: 3,
+                description: "绝对化表述"
+            },
+            {
+                name: "权威引用",
+                text: "根据官方报告，专家表示这个数据是准确的。",
+                expectedIssues: 2,
+                description: "虚假权威引用"
+            },
+            {
+                name: "实时能力声明",
+                text: "我可以帮你查询实时股价信息。",
+                expectedIssues: 1,
+                description: "虚假实时能力"
+            },
+            {
+                name: "矛盾陈述",
+                text: "这个方法既简单又复杂，既安全又危险。",
+                expectedIssues: 2,
+                description: "自相矛盾的表述"
+            },
+            {
+                name: "百分比验证",
+                text: "调查显示60%的人支持，45%的人反对。",
+                expectedIssues: 1,
+                description: "百分比总和超过100%"
+            }
+        ];
+
+        // 初始化函数
+        function initializeComponents() {
+            try {
+                patterns = new HallucinationPatterns();
+                analyzer = new TextAnalyzer(patterns);
+                console.log('✅ 组件初始化成功');
+                
+                // 生成测试用例UI
+                generateTestCasesUI();
+                
+            } catch (error) {
+                console.error('❌ 组件初始化失败:', error);
+                document.getElementById('testResults').innerHTML = 
+                    '<div style="color: red;">❌ 初始化失败：' + error.message + '</div>';
+                document.getElementById('testResults').style.display = 'block';
+            }
+        }
+
+        // 生成测试用例UI
+        function generateTestCasesUI() {
+            const container = document.getElementById('testCases');
+            container.innerHTML = testCases.map((testCase, index) => `
+                <div class="test-case">
+                    <h4>${testCase.name}</h4>
+                    <p>${testCase.description}</p>
+                    <textarea readonly>${testCase.text}</textarea>
+                    <br>
+                    <small>预期问题数：${testCase.expectedIssues}</small>
+                    <br>
+                    <button class="test-button" onclick="runSingleTest(${index})" style="margin-top: 10px;">测试此用例</button>
+                </div>
+            `).join('');
+        }
+
+        // 运行单个测试
+        function runTest() {
+            const text = document.getElementById('testInput').value.trim();
+            if (!text) {
+                alert('请输入测试文本');
+                return;
+            }
+
+            if (!analyzer) {
+                alert('组件未初始化，请刷新页面重试');
+                return;
+            }
+
+            try {
+                const result = analyzer.analyzeText(text);
+                displayResults(result, text);
+            } catch (error) {
+                console.error('测试失败:', error);
+                document.getElementById('testResults').innerHTML = 
+                    '<div style="color: red;">❌ 测试失败：' + error.message + '</div>';
+                document.getElementById('testResults').style.display = 'block';
+            }
+        }
+
+        // 运行单个测试用例
+        function runSingleTest(index) {
+            const testCase = testCases[index];
+            document.getElementById('testInput').value = testCase.text;
+            runTest();
+        }
+
+        // 运行所有测试用例
+        function runAllTests() {
+            if (!analyzer) {
+                alert('组件未初始化，请刷新页面重试');
+                return;
+            }
+
+            const results = [];
+            for (const testCase of testCases) {
+                try {
+                    const result = analyzer.analyzeText(testCase.text);
+                    results.push({
+                        testCase,
+                        result,
+                        passed: result.issues.length === testCase.expectedIssues
+                    });
+                } catch (error) {
+                    results.push({
+                        testCase,
+                        result: null,
+                        error: error.message,
+                        passed: false
+                    });
+                }
+            }
+            
+            displayAllTestResults(results);
+        }
+
+        // 显示单个测试结果
+        function displayResults(result, text) {
+            const resultsDiv = document.getElementById('testResults');
+            
+            // 显示指标
+            const metricsHtml = `
+                <div class="metric">
+                    <div class="metric-value">${result.issues.length}</div>
+                    <div class="metric-label">检测问题</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${(result.confidence * 100).toFixed(1)}%</div>
+                    <div class="metric-label">置信度</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${result.riskLevel}</div>
+                    <div class="metric-label">风险等级</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${result.performance.duration.toFixed(2)}ms</div>
+                    <div class="metric-label">分析耗时</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${result.textMetrics.wordCount}</div>
+                    <div class="metric-label">字数</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">${(result.textMetrics.keywordDensity * 100).toFixed(1)}%</div>
+                    <div class="metric-label">关键词密度</div>
+                </div>
+            `;
+            
+            // 显示问题
+            const issuesHtml = result.issues.length > 0 ? 
+                result.issues.map(issue => `
+                    <div class="issue ${issue.severity}">
+                        <strong>${issue.description}</strong>
+                        <br>匹配文本: "${issue.matchedText}"
+                        <br>置信度: ${(issue.confidence * 100).toFixed(1)}%
+                        <br>类别: ${issue.category}
+                        <br>建议: ${issue.suggestions.join(', ')}
+                    </div>
+                `).join('') : 
+                '<div class="issue">✅ 未发现问题</div>';
+
+            // 显示详细分析结果
+            const detailsHtml = `
+                <h4>文本指标</h4>
+                <pre>${JSON.stringify(result.textMetrics, null, 2)}</pre>
+                <h4>问题摘要</h4>
+                <pre>${JSON.stringify(result.summary, null, 2)}</pre>
+            `;
+
+            document.getElementById('metricsDisplay').innerHTML = metricsHtml;
+            document.getElementById('issuesDisplay').innerHTML = `<h4>检测问题</h4>${issuesHtml}`;
+            document.getElementById('performanceDisplay').innerHTML = detailsHtml;
+            
+            resultsDiv.style.display = 'block';
+        }
+
+        // 显示所有测试结果
+        function displayAllTestResults(results) {
+            const passed = results.filter(r => r.passed).length;
+            const total = results.length;
+            
+            const summaryHtml = `
+                <h3>批量测试结果: ${passed}/${total} 通过</h3>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value">${passed}</div>
+                        <div class="metric-label">通过</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">${total - passed}</div>
+                        <div class="metric-label">失败</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">${((passed / total) * 100).toFixed(1)}%</div>
+                        <div class="metric-label">通过率</div>
+                    </div>
+                </div>
+            `;
+
+            const detailsHtml = results.map((r, i) => `
+                <div class="issue ${r.passed ? 'low' : 'high'}">
+                    <strong>${r.testCase.name}</strong> ${r.passed ? '✅' : '❌'}
+                    <br>期望: ${r.testCase.expectedIssues} 个问题
+                    <br>实际: ${r.result ? r.result.issues.length : 'ERROR'} 个问题
+                    ${r.error ? `<br>错误: ${r.error}` : ''}
+                    <br><button class="test-button" onclick="runSingleTest(${i})">查看详情</button>
+                </div>
+            `).join('');
+
+            document.getElementById('metricsDisplay').innerHTML = summaryHtml;
+            document.getElementById('issuesDisplay').innerHTML = `<h4>测试用例结果</h4>${detailsHtml}`;
+            document.getElementById('performanceDisplay').innerHTML = '';
+            document.getElementById('testResults').style.display = 'block';
+        }
+
+        // 清除结果
+        function clearResults() {
+            document.getElementById('testResults').style.display = 'none';
+        }
+
+        // 页面加载时初始化
+        window.addEventListener('load', () => {
+            setTimeout(initializeComponents, 100);
+        });
+    </script>
+</body>
+</html> 

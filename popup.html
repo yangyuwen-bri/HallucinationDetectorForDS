@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeepSeek AI幻觉检测器</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="header-content">
+        <div class="logo">
+          <span class="logo-icon">🔍</span>
+          <h1 class="logo-title">AI幻觉检测器</h1>
+        </div>
+        <div class="version">v1.0.0</div>
+      </div>
+      <div class="subtitle">DeepSeek专用版</div>
+    </header>
+
+    <!-- Status Section -->
+    <section class="status-section">
+      <div class="status-card">
+        <div class="status-indicator">
+          <div id="status-dot" class="status-dot active"></div>
+          <span id="status-text" class="status-text">检测已启用</span>
+        </div>
+        <button id="toggle-btn" class="toggle-btn active">
+          <span class="btn-text">停用检测</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div id="warning-count" class="stat-number">0</div>
+          <div class="stat-label">检测问题</div>
+        </div>
+        <div class="stat-item">
+          <div id="confidence-score" class="stat-number">--</div>
+          <div class="stat-label">平均置信度</div>
+        </div>
+        <div class="stat-item">
+          <div id="risk-level" class="stat-number">低</div>
+          <div class="stat-label">风险等级</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="actions-section">
+      <div class="action-buttons">
+        <button id="clear-warnings-btn" class="action-btn secondary">
+          <span class="btn-icon">🗑️</span>
+          清除警告
+        </button>
+        <button id="force-analyze-btn" class="action-btn secondary">
+          <span class="btn-icon">🔄</span>
+          重新分析
+        </button>
+      </div>
+    </section>
+
+    <!-- Settings Section -->
+    <section class="settings-section">
+      <div class="section-header">
+        <h3 class="section-title">检测设置</h3>
+        <button id="settings-toggle" class="expand-btn">
+          <span class="expand-icon">▼</span>
+        </button>
+      </div>
+      
+      <div id="settings-content" class="settings-content collapsed">
+        <!-- Detection Sensitivity -->
+        <div class="setting-group">
+          <label class="setting-label">检测敏感度</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="sensitivity" value="low">
+              <span class="radio-label">低</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="sensitivity" value="medium" checked>
+              <span class="radio-label">中</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="sensitivity" value="high">
+              <span class="radio-label">高</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Risk Level Display -->
+        <div class="setting-group">
+          <label class="setting-label">显示警告级别</label>
+          <div class="checkbox-group">
+            <label class="checkbox-option">
+              <input type="checkbox" id="show-high-risk" checked>
+              <span class="checkbox-label">🚨 高风险</span>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="show-medium-risk" checked>
+              <span class="checkbox-label">⚠️ 中风险</span>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="show-low-risk" checked>
+              <span class="checkbox-label">ℹ️ 低风险</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Detection Categories -->
+        <div class="setting-group">
+          <label class="setting-label">检测类别</label>
+          <div class="checkbox-group">
+            <label class="checkbox-option">
+              <input type="checkbox" id="detect-personal" checked>
+              <span class="checkbox-label">个人经历声明</span>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="detect-temporal" checked>
+              <span class="checkbox-label">时间敏感信息</span>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="detect-authority" checked>
+              <span class="checkbox-label">权威引用</span>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="detect-numbers" checked>
+              <span class="checkbox-label">精确数字</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Advanced Options -->
+        <div class="setting-group">
+          <label class="setting-label">高级选项</label>
+          <div class="checkbox-group">
+            <label class="checkbox-option">
+              <input type="checkbox" id="real-time-detection" checked>
+              <span class="checkbox-label">实时检测</span>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="compact-mode">
+              <span class="checkbox-label">紧凑显示模式</span>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="animation-enabled" checked>
+              <span class="checkbox-label">启用动画效果</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Help Section -->
+    <section class="help-section">
+      <div class="help-content">
+        <div class="help-item">
+          <span class="help-icon">💡</span>
+          <div class="help-text">
+            <strong>使用提示：</strong>
+            检测器会自动分析DeepSeek的AI回复，在可能存在幻觉的内容旁显示警告标识。
+          </div>
+        </div>
+        <div class="help-item">
+          <span class="help-icon">⚠️</span>
+          <div class="help-text">
+            <strong>注意事项：</strong>
+            检测结果仅供参考，请结合实际情况判断信息的准确性。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="popup-footer">
+      <div class="footer-links">
+        <a href="#" id="help-link" class="footer-link">帮助文档</a>
+        <span class="separator">|</span>
+        <a href="#" id="feedback-link" class="footer-link">意见反馈</a>
+      </div>
+      <div class="footer-info">
+        <span class="copyright">© 2024 AI幻觉检测器</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">正在处理...</div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,525 @@
+/* DeepSeek AI幻觉检测器 - 页面注入样式 */
+
+/* 避免与页面原有样式冲突的命名空间 */
+.deepseek-hallucination-detector {
+  /* 基础样式重置 */
+  all: initial;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* 检测器状态指示器 */
+.dhd-status-indicator {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 999999 !important;
+  pointer-events: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+.dhd-status-badge {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: rgba(0, 0, 0, 0.85) !important;
+  color: white !important;
+  padding: 10px 16px !important;
+  border-radius: 25px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s ease !important;
+}
+
+.dhd-status-icon {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  animation: dhd-pulse 2s infinite !important;
+}
+
+.dhd-status-icon.active {
+  background-color: #00d4aa !important;
+}
+
+.dhd-status-icon.warning {
+  background-color: #ffa726 !important;
+}
+
+.dhd-status-icon.error {
+  background-color: #ef5350 !important;
+}
+
+/* 警告卡片主体 */
+.hd-warning {
+  position: relative;
+  margin: 8px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  z-index: 1000;
+  animation: hd-slideIn 0.3s ease-out;
+  background: #2a2a2a; /* 深色背景 */
+  color: white; /* 白色文字 */
+}
+
+.hd-warning.hd-compact {
+  margin: 4px 0;
+  font-size: 12px;
+}
+
+.hd-warning--high {
+  background: #2a2a2a;
+  border-left: 4px solid #f44336;
+}
+
+.hd-warning--medium {
+  background: #2a2a2a;
+  border-left: 4px solid #ff9800;
+}
+
+.hd-warning--low {
+  background: #2a2a2a;
+  border-left: 4px solid #4caf50;
+}
+
+.hd-warning-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  background-color: rgba(255,255,255,0.05); /* 轻微亮一点的背景 */
+}
+
+.hd-warning-header:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+.hd-warning-icon {
+  font-size: 18px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.hd-warning-title {
+  font-weight: 600;
+  flex-grow: 1;
+  margin-right: 8px;
+  color: white;
+}
+
+.hd-warning-badge {
+  background: rgba(255,255,255,0.15); /* 更明显的背景 */
+  color: white; /* 白色文字 */
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.hd-warning-toggle {
+  background: rgba(255,255,255,0.15); /* 更明显的背景 */
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  color: white; /* 白色文字 */
+}
+
+.hd-warning-toggle:hover {
+  background-color: rgba(255,255,255,0.25);
+}
+
+.hd-warning-content {
+  padding: 0 16px 16px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 8px;
+  display: none;
+  color: white; /* 确保所有文字为白色 */
+}
+
+.hd-warning-content.hd-expanded {
+  display: block;
+  animation: hd-fadeIn 0.2s ease-out;
+}
+
+/* 摘要卡片 */
+.dhd-summary {
+  background: rgba(255,255,255,0.08); /* 轻微亮一点的背景 */
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: white;
+}
+
+.dhd-summary-title {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: white;
+  font-size: 14px;
+}
+
+.dhd-summary-stats {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)) !important;
+  gap: 16px !important;
+  margin-bottom: 12px !important;
+}
+
+.dhd-summary-stat {
+  text-align: center !important;
+}
+
+.dhd-summary-number {
+  font-weight: 700;
+  font-size: 16px;
+  color: white; /* 默认白色 */
+}
+
+.dhd-summary-number.risk-high {
+  color: #ff5252 !important; /* 高风险红色 */
+  font-weight: bold;
+}
+
+.dhd-summary-number.risk-medium {
+  color: #ffab40 !important; /* 中风险黄色 */
+  font-weight: bold;
+}
+
+.dhd-summary-number.risk-low {
+  color: #69f0ae !important; /* 低风险绿色 */
+  font-weight: bold;
+}
+
+.dhd-summary-label {
+  color: rgba(255,255,255,0.8);
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+/* 置信度条 */
+.dhd-confidence-bar {
+  width: 100% !important;
+  height: 8px !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  margin: 12px 0 !important;
+}
+
+.dhd-confidence-fill {
+  height: 100% !important;
+  background: linear-gradient(90deg, #4caf50, #8bc34a) !important;
+  border-radius: 10px !important;
+  transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  position: relative !important;
+}
+
+.dhd-confidence-fill::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent) !important;
+  animation: dhd-shimmer 2s infinite !important;
+}
+
+/* 问题列表 */
+.dhd-issue {
+  background: rgba(255,255,255,0.08);
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  border-left: 3px solid rgba(255,255,255,0.2);
+}
+
+.dhd-issue:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  transform: translateX(4px) !important;
+}
+
+.dhd-issue-description {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: white;
+  font-size: 13px;
+}
+
+.dhd-issue-text {
+  background: rgba(255,255,255,0.1);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+  margin: 8px 0;
+  word-break: break-word;
+  color: white;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.dhd-issue-suggestion {
+  font-size: 12px;
+  color: rgba(255,255,255,0.8);
+  font-style: italic;
+  margin-top: 6px;
+}
+
+/* 建议文本 */
+.dhd-recommendation {
+  font-size: 13px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-style: italic !important;
+  text-align: center !important;
+  padding: 8px !important;
+}
+
+/* 更多问题提示 */
+.dhd-more-issues {
+  text-align: center !important;
+  padding: 12px !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 12px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  margin-top: 8px !important;
+}
+
+/* 动画定义 */
+@keyframes dhd-slideInRight {
+  from {
+    transform: translateX(100%) !important;
+    opacity: 0 !important;
+  }
+  to {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+  }
+}
+
+@keyframes dhd-fadeIn {
+  from {
+    opacity: 0 !important;
+    transform: translateY(-10px) !important;
+  }
+  to {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+}
+
+@keyframes dhd-pulse {
+  0%, 100% {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+  50% {
+    opacity: 0.6 !important;
+    transform: scale(1.1) !important;
+  }
+}
+
+@keyframes dhd-shimmer {
+  0% {
+    transform: translateX(-100%) !important;
+  }
+  100% {
+    transform: translateX(100%) !important;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .dhd-warning {
+    margin: 12px 8px !important;
+    border-radius: 8px !important;
+  }
+  
+  .dhd-warning-header {
+    padding: 12px 16px !important;
+  }
+  
+  .dhd-warning-title {
+    font-size: 14px !important;
+  }
+  
+  .dhd-summary-stats {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+  }
+  
+  .dhd-status-indicator {
+    bottom: 15px !important;
+    right: 15px !important;
+  }
+  
+  .dhd-status-badge {
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* 深色主题适配 */
+@media (prefers-color-scheme: dark) {
+  .dhd-warning.high-risk {
+    background: linear-gradient(135deg, rgba(239, 83, 80, 0.9) 0%, rgba(198, 40, 40, 0.95) 100%) !important;
+  }
+  
+  .dhd-warning.medium-risk {
+    background: linear-gradient(135deg, rgba(255, 167, 38, 0.9) 0%, rgba(230, 126, 34, 0.95) 100%) !important;
+  }
+  
+  .dhd-warning.low-risk {
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.9) 0%, rgba(25, 118, 210, 0.95) 100%) !important;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .dhd-warning {
+    border: 2px solid rgba(255, 255, 255, 0.8) !important;
+  }
+  
+  .dhd-warning-header {
+    background: rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  .dhd-warning-toggle {
+    border: 2px solid rgba(255, 255, 255, 0.8) !important;
+  }
+}
+
+/* 减少动画（可访问性） */
+@media (prefers-reduced-motion: reduce) {
+  .dhd-warning,
+  .dhd-warning-content,
+  .dhd-confidence-fill,
+  .dhd-issue {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .dhd-status-icon {
+    animation: none !important;
+  }
+}
+
+/* 警告面板固定位置样式 - 外围面板 */
+.hd-warning-panel {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 320px;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 10000;
+  background: #1e1e1e; /* DeepSeek的深色背景色 */
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  padding: 8px;
+}
+
+/* 内联警告样式 */
+.hd-inline-warning {
+  display: inline-block;
+  position: relative;
+  margin-left: 8px;
+  vertical-align: middle;
+  z-index: 100;
+}
+
+.hd-inline-icon {
+  cursor: pointer;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.hd-inline-icon:hover {
+  transform: scale(1.1);
+}
+
+.hd-inline-icon--high {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+}
+
+.hd-inline-icon--medium {
+  background-color: rgba(255, 152, 0, 0.1);
+  color: #ff9800;
+}
+
+.hd-inline-icon--low {
+  background-color: rgba(33, 150, 243, 0.1);
+  color: #2196f3;
+}
+
+.hd-inline-tooltip {
+  position: absolute;
+  width: 300px;
+  background: #1e1e1e; /* 与DeepSeek背景色匹配 */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 12px;
+  display: none;
+  z-index: 10000;
+  right: 0;
+  top: 100%;
+  margin-top: 8px;
+  text-align: left;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.9); /* 白色系文字 */
+}
+
+.hd-inline-warning:hover .hd-inline-tooltip {
+  display: block;
+  animation: hd-fadeIn 0.2s ease;
+}
+
+/* 确保警告不会遮挡对话内容 */
+.ds-markdown-paragraph .hd-inline-warning {
+  font-size: 0.9em;
+  opacity: 0.9;
+}
+
+/* 添加动画效果 */
+@keyframes hd-fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hd-slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .hd-warning-panel {
+    right: 10px;
+    max-width: 280px;
+  }
+  
+  .hd-inline-tooltip {
+    width: 250px;
+  }
+}

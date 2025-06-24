@@ -1,0 +1,62 @@
+{
+  "name": "deepseek-hallucination-detector",
+  "version": "1.2.0",
+  "description": "A Chrome extension to detect potential hallucinations in DeepSeek AI responses",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "dev": "python -m http.server 8000",
+    "dev:node": "npx http-server",
+    "build": "npm run lint",
+    "prepare": "npm run lint",
+    "clean": "rm -rf node_modules package-lock.json",
+    "docs": "jsdoc -c jsdoc.conf.json",
+    "format": "prettier --write \"**/*.{js,json,md,css,html}\"",
+    "format:check": "prettier --check \"**/*.{js,json,md,css,html}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/deepseek-hallucination-detector.git"
+  },
+  "keywords": [
+    "chrome-extension",
+    "ai-hallucination",
+    "deepseek",
+    "text-analysis",
+    "machine-learning",
+    "nlp",
+    "javascript",
+    "browser-extension"
+  ],
+  "author": "DeepSeek Hallucination Detector Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/your-username/deepseek-hallucination-detector/issues"
+  },
+  "homepage": "https://github.com/your-username/deepseek-hallucination-detector#readme",
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "jsdoc": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "browserslist": [
+    "Chrome >= 88"
+  ],
+  "files": [
+    "lib/",
+    "icons/",
+    "manifest.json",
+    "background.js",
+    "content.js",
+    "popup.html",
+    "popup.js",
+    "popup.css",
+    "styles.css"
+  ]
+}
