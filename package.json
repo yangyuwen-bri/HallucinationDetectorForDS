@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/deepseek-hallucination-detector.git"
+    "url": "git+https://github.com/yangyuwen-bri/HallucinationDetectorForDS.git"
   },
   "keywords": [
     "chrome-extension",
@@ -30,12 +30,12 @@
     "javascript",
     "browser-extension"
   ],
-  "author": "DeepSeek Hallucination Detector Team",
+  "author": "yangyuwen-bri",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/your-username/deepseek-hallucination-detector/issues"
+    "url": "https://github.com/yangyuwen-bri/HallucinationDetectorForDS/issues"
   },
-  "homepage": "https://github.com/your-username/deepseek-hallucination-detector#readme",
+  "homepage": "https://github.com/yangyuwen-bri/HallucinationDetectorForDS#readme",
   "devDependencies": {
     "eslint": "^8.0.0",
     "prettier": "^3.0.0",

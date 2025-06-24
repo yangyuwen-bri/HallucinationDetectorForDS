@@ -273,9 +273,9 @@ describe('TextAnalyzer', () => {
 
 如有任何问题，欢迎通过以下方式联系：
 
-- 📧 提交Issue: [GitHub Issues](https://github.com/your-username/deepseek-hallucination-detector/issues)
-- 💬 参与讨论: [GitHub Discussions](https://github.com/your-username/deepseek-hallucination-detector/discussions)
-- 📝 提交PR: [Pull Requests](https://github.com/your-username/deepseek-hallucination-detector/pulls)
+- 📧 提交Issue: [GitHub Issues](https://github.com/yangyuwen-bri/HallucinationDetectorForDS/issues)
+- 💬 参与讨论: [GitHub Discussions](https://github.com/yangyuwen-bri/HallucinationDetectorForDS/discussions)
+- 📝 提交PR: [Pull Requests](https://github.com/yangyuwen-bri/HallucinationDetectorForDS/pulls)
 
 ## 🎯 快速开始贡献
 
@@ -286,8 +286,8 @@ describe('TextAnalyzer', () => {
 
 2. **克隆到本地**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/deepseek-hallucination-detector.git
-   cd deepseek-hallucination-detector
+   git clone https://github.com/yangyuwen-bri/HallucinationDetectorForDS.git
+   cd HallucinationDetectorForDS
    ```
 
 3. **创建功能分支**

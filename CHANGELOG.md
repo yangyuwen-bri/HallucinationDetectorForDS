@@ -130,6 +130,6 @@
 4. 发布时，维护者会将 `[未发布]` 的内容移动到新版本
 
 ### 获取完整历史
-- [所有发布版本](https://github.com/your-username/deepseek-hallucination-detector/releases)
-- [提交历史](https://github.com/your-username/deepseek-hallucination-detector/commits/main)
-- [里程碑](https://github.com/your-username/deepseek-hallucination-detector/milestones) 
+- [所有发布版本](https://github.com/yangyuwen-bri/HallucinationDetectorForDS/releases)
+- [提交历史](https://github.com/yangyuwen-bri/HallucinationDetectorForDS/commits/main)
+- [里程碑](https://github.com/yangyuwen-bri/HallucinationDetectorForDS/milestones) 

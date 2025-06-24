@@ -517,7 +517,7 @@ class PopupController {
    */
   openFeedbackPage() {
     chrome.tabs.create({
-      url: 'https://github.com/your-repo/deepseek-hallucination-detector/issues'
+              url: 'https://github.com/yangyuwen-bri/HallucinationDetectorForDS/issues'
     });
   }
 }
